@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Guru - English Practice</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+        h1 { color: var(--primary); font-size: 1.5rem; }
+        .card {
+            margin: 20px 0;
+            padding: 30px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+        }
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover { opacity: 0.9; }
+        #feedback { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>English Flashcards</h1>
+    <div class="card" id="word-display">Carregando...</div>
+    <input type="text" id="user-input" placeholder="Tradução aqui...">
+    <br>
+    <button onclick="checkAnswer()">Verificar</button>
+    <div id="feedback"></div>
+    <p id="score">Acertos: 0</p>
+</div>
+
+<script>
+    const vocabulary = [
+        { en: "Hardworking", pt: "Esforçado" },
+        { en: "Indeed", pt: "De fato" },
+        { en: "Reliable", pt: "Confiável" },
+        { en: "Environment", pt: "Meio ambiente" },
+        { en: "Improvement", pt: "Melhoria" }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+
+    function loadCard() {
+        if (currentIndex < vocabulary.length) {
+            document.getElementById('word-display').innerText = vocabulary[currentIndex].en;
+            document.getElementById('user-input').value = "";
+            document.getElementById('feedback').innerText = "";
+        } else {
+            document.querySelector('.container').innerHTML = `<h1>Fim do Treino!</h1><p>Seu score final foi ${score} de ${vocabulary.length}</p><button onclick="location.reload()">Reiniciar</button>`;
+        }
+    }
+
+    function checkAnswer() {
+        const input = document.getElementById('user-input').value.trim().toLowerCase();
+        const correct = vocabulary[currentIndex].pt.toLowerCase();
+        const feedback = document.getElementById('feedback');
+
+        if (input === correct) {
+            feedback.innerText = "✅ Correto!";
+            feedback.style.color = "green";
+            score++;
+        } else {
+            feedback.innerText = `❌ Errado! Era: ${vocabulary[currentIndex].pt}`;
+            feedback.style.color = "red";
+        }
+
+        currentIndex++;
+        document.getElementById('score').innerText = `Acertos: ${score}`;
+        setTimeout(loadCard, 1500);
+    }
+
+    loadCard();
+</script>
+
+</body>
+</html>
